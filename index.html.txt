@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <script type="text/javascript" src="../js/main.js"></script>
+    </head>
+    
+    <body>
+        <p id="dummy"></p>
+
+        <script>
+        document.getElementById("dummy").innerHTML = sayHello();
+        </script>
+
+    </body>
+</html>
+
