@@ -145,6 +145,7 @@ body {
     font-size: 18px;
     transform: translate(-50%, -50%);
     display: none;
+    cursor: pointer;
 }
 
 .progress-bar .step .check.active {
@@ -255,6 +256,15 @@ form .page .btns .prev {
 
 form .page .btns .next {
     margin-left: 3px;
+}
+
+.info {
+    color: #fff;
+    display: none;
+}
+
+.info i {
+    font-size: 70px;
 }
 
 @media screen and (max-width: 767px) {

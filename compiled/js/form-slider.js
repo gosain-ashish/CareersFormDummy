@@ -18,10 +18,161 @@ const allPrevButtons = [firstPrevButton, secondPrevButton, thirdPrevButton];
 const progressText = document.querySelectorAll('.step p');
 const progressCheck = document.querySelectorAll('.step .check');
 const bullet = document.querySelectorAll('.step .bullet');
+const navigation = document.querySelectorAll('.navigate');
 let max = 4;
 let current = 1;
 let marginValue = "";
 let marginIntValue = 0;
+/**
+ * Adding navigation to each navigation div either it is bullet, check or span
+ */
+navigation.forEach(function (value) {
+    value.addEventListener("click", function (evt) {
+        findElement(evt);
+    });
+});
+/**
+ * @summary This function is responsible to find user input, To check user has clicked which navigation
+ * to move.
+ *
+ * @param evt Event: This is the clicked event to get user input
+ */
+function findElement(evt) {
+    var _a, _b, _c;
+    let ele = evt.target;
+    let nameOfNode = ele.nodeName;
+    switch (nameOfNode) {
+        case "DIV":
+            navigate(+((_a = ele.firstElementChild) === null || _a === void 0 ? void 0 : _a.innerHTML));
+            break;
+        case "SPAN":
+            navigate(+ele.innerHTML);
+            break;
+        case "I":
+            navigate(+((_c = (_b = ele.previousElementSibling) === null || _b === void 0 ? void 0 : _b.firstElementChild) === null || _c === void 0 ? void 0 : _c.innerHTML));
+            break;
+        default:
+            break;
+    }
+}
+/**
+ * @summary This is most complex function and final function to move user next or previous from navigation
+ * bar. This function move navigation bar along with check boxes.
+ *
+ * @param currentWindow number: This is the input we get from user, To identify on which step user
+ * wants to move.
+ */
+function navigate(currentWindow) {
+    if (isNaN(currentWindow)) {
+        return;
+    }
+    let currentActiveCheckWindow = getCurrentActiveCheckWindow();
+    //This if is for move in previous direction
+    if (isCheckWindowActive(currentWindow) && currentWindow <= currentActiveCheckWindow) {
+        currentActiveCheckWindow = currentActiveCheckWindow + 1;
+        switch (currentActiveCheckWindow) {
+            case 4:
+                switch (currentWindow) {
+                    case 3:
+                        makeTransition("-50%", SHIFT_PREV);
+                        break;
+                    case 2:
+                        makeTransition("-25%", SHIFT_PREV);
+                        break;
+                    case 1:
+                        makeTransition("0%", SHIFT_PREV);
+                        break;
+                    default:
+                        break;
+                }
+            case 3:
+                switch (currentWindow) {
+                    case 2:
+                        makeTransition("-25%", SHIFT_PREV);
+                        break;
+                    case 1:
+                        makeTransition("0%", SHIFT_PREV);
+                        break;
+                    default:
+                        break;
+                }
+            case 2:
+                switch (currentWindow) {
+                    case 1:
+                        makeTransition("0%", SHIFT_PREV);
+                        break;
+                    default:
+                        break;
+                }
+        }
+    } //Below else is responsible to move in next direction 
+    else if (currentWindow !== 1 && currentWindow !== currentActiveCheckWindow + 1) {
+        currentActiveCheckWindow = currentActiveCheckWindow + 1;
+        switch (currentActiveCheckWindow) {
+            case 1:
+                switch (currentWindow) {
+                    case 2:
+                        makeTransition("-25%", SHIFT_NEXT);
+                        break;
+                    case 3:
+                        makeTransition("-50%", SHIFT_NEXT);
+                        break;
+                    case 4:
+                        makeTransition("-75%", SHIFT_NEXT);
+                        break;
+                    default:
+                        break;
+                }
+            case 2:
+                switch (currentWindow) {
+                    case 3:
+                        makeTransition("-50%", SHIFT_NEXT);
+                        break;
+                    case 4:
+                        makeTransition("-75%", SHIFT_NEXT);
+                        break;
+                    default:
+                        break;
+                }
+            case 3:
+                switch (currentWindow) {
+                    case 4:
+                        makeTransition("-75%", SHIFT_NEXT);
+                        break;
+                    default:
+                        break;
+                }
+        }
+    }
+}
+/**
+ * @summary This function is responsible to get current active check window to identify whether user
+ * want to move next or previous
+ */
+function getCurrentActiveCheckWindow() {
+    let currentActiveWindow = 0;
+    for (let check of progressCheck) {
+        if (check.classList.contains("active")) {
+            currentActiveWindow++;
+        }
+    }
+    return currentActiveWindow;
+}
+/**
+ * @summary This function is responsible to check that which step user has chosen to move is already
+ * on enabled or not.
+ *
+ * @param currentWindow number: This is the input we get from user, To identify on which step user
+ * wants to move.
+ */
+function isCheckWindowActive(currentWindow) {
+    var _a, _b;
+    for (let check of progressCheck) {
+        if (+((_b = (_a = check.previousElementSibling) === null || _a === void 0 ? void 0 : _a.firstElementChild) === null || _b === void 0 ? void 0 : _b.innerHTML) === currentWindow)
+            return check.classList.contains("active");
+    }
+    return false;
+}
 //Variable to indicate whether to reset margin value or not
 let resetMarginIntValue = true;
 //Binding event listeners to all next buttons with specified margin
@@ -80,6 +231,10 @@ function makeTransition(marginValue, shiftTowards) {
         bullet[current - 1].classList.add("active");
         progressCheck[current - 1].classList.add("active");
         current += 1;
-        location.reload();
+        document.getElementById("initial-form").style.display = "none";
+        document.getElementById("afterSubmit").style.display = "block";
+        setTimeout(function () {
+            location.reload();
+        }, 5000);
     }
 }
