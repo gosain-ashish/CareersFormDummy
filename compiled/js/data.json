@@ -1,0 +1,16 @@
+{
+    "locationData": {
+        "INDIA": {
+            "Haryana": ["Ambala", "Karnal", "Kurukshetra"],
+            "Punjab": ["Mohali", "Firozpur", "Patiala"]
+        },
+        "USA": {
+            "Texas": ["Dallas", "Houstan", "Austin"],
+            "California": ["Las Angeles", "San Diago", "San Jose"]
+        },
+        "CANADA": {
+            "Onterio": ["Onterio1", "Onterio2", "Onterio3"],
+            "Montreal": ["Montreal1", "Montreal2", "Montreal3"]
+        }
+    }
+}

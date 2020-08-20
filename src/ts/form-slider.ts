@@ -1,6 +1,9 @@
 /**
  * Typescript file containing all form slider functions.
  */
+
+import saveData from './CommonUtils.js';
+
 const SHIFT_PREV = 0;
 const SHIFT_NEXT = 1;
 const SHIFT_SUBMIT = 2;
@@ -224,6 +227,10 @@ function addCustomEventListeners(element: HTMLBodyElement, marginValue: string, 
     } else if(element.innerHTML === "Submit") {
         element.addEventListener("click", function() {
             makeTransition("", SHIFT_SUBMIT);
+
+            let form =<HTMLFormElement> document.getElementById('initial-form') as HTMLFormElement ;
+            //Save the data after clicking on submit.
+             saveData(form); 
         })
     }
 }
@@ -239,21 +246,23 @@ function makeTransition(marginValue:string, shiftTowards:number) {
         sliderPage.style.marginLeft = marginValue;
     
     if(shiftTowards === SHIFT_NEXT) {
-        bullet[current - 1].classList.add("active");
+        bullet[current - 1 ].classList.add("active");
         progressCheck[current - 1].classList.add("active");
         current += 1;
     } else if(shiftTowards === SHIFT_PREV) {
         bullet[current - 2].classList.remove("active");
         progressCheck[current - 2].classList.remove("active");
         current -= 1;
-    } else if(shiftTowards === SHIFT_SUBMIT) {
+    } else if(shiftTowards === SHIFT_SUBMIT && current <= bullet.length) {
         bullet[current - 1].classList.add("active");
         progressCheck[current - 1].classList.add("active");
         current += 1;
-        document.getElementById("initial-form")!.style.display = "none";
-        document.getElementById("afterSubmit")!.style.display = "block";
+        let form = document.getElementById("initial-form") as HTMLFormElement;
+       // document.getElementById("afterSubmit")!.style.display = "block";
         setTimeout(function(){
-            location.reload();
-        }, 5000);
+            form.reset();
+        }, 500);
     }
 }
+
+
