@@ -237,7 +237,6 @@ function makeTransition(marginValue, shiftTowards) {
         let form = document.getElementById("initial-form");
         // document.getElementById("afterSubmit")!.style.display = "block";
         setTimeout(function () {
-            //location.reload();
             form.reset();
         }, 500);
     }

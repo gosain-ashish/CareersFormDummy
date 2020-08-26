@@ -72,13 +72,13 @@ function thirdApproach(){
             
         } */
        
-        location = {countries: jsondata[val].Country, stateV:  jsondata[val].States,  getcities: function(){ return jsondata[val].States.city}};
+        location = {countries: jsondata[val].Country, stateV:  jsondata[val].States};
         
         //locationMap.push(data[val].Country , statesArray )
 
         locationArray.push(location);
 
-        location.getcities();
+      //  location.getcities();
        
     }
     console.log(locationArray);
@@ -137,4 +137,4 @@ function fifthApproach(){
 
 //firstapproach();
 
-fifthApproach();
+//fifthApproach();

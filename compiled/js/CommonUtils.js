@@ -14,54 +14,7 @@ export default function saveData(form) {
     datalist.push(data);
     console.log(datalist);
 }
-function firstapproach() {
-    let locationMap = new Map();
-    for (let val in data) {
-        let stateCityMap = new Map();
-        for (let stateVal in data[val].States) {
-            stateCityMap.set(data[val].States[stateVal].State, data[val].States[stateVal].Cities);
-            locationMap.set(data[val].Country, stateCityMap);
-        }
-    }
-    console.log(data[0].Country);
-}
-function secondApproach() {
-    let locationMap = new Map();
-    for (let val in data) {
-        let statesArray = [];
-        let statesType;
-        for (let stateVal in data[val].States) {
-            statesType = { State: data[val].States[stateVal].State, city: data[val].States[stateVal].Cities };
-            statesArray.push(statesType);
-        }
-        locationMap.set(data[val].Country, statesArray);
-    }
-    console.log(locationMap);
-}
-function thirdApproach() {
-    let locationArray = [];
-    let location;
-    let jsondata = data;
-    for (let val in jsondata) {
-        /* let statesArray: states[] = [];
-
-        let statesType : states; */
-        /*  for(let stateVal in jsondata[val].States){
- 
-             statesType = {State: jsondata[val].States[stateVal].State , city: jsondata[val].States[stateVal].Cities  }
- 
-             statesArray.push(statesType)
- 
-             
-         } */
-        location = { countries: jsondata[val].Country, stateV: jsondata[val].States, getcities: function () { return jsondata[val].States.city; } };
-        //locationMap.push(data[val].Country , statesArray )
-        locationArray.push(location);
-        location.getcities();
-    }
-    console.log(locationArray);
-}
-function forthApproach() {
+function getDataFromLocation() {
     let locationMap = new Map();
     for (let n in data) {
         let stateArray = [];
@@ -72,23 +25,78 @@ function forthApproach() {
         }
         locationMap.set(data[n].Country, stateArray);
     }
-    console.log(locationMap);
+    return locationMap;
 }
-function fifthApproach() {
-    let location = [];
-    let eachLocation;
-    let jsondata = data;
-    for (let n in jsondata) {
-        if (jsondata[n].Country === "INDIA") {
-            if (jsondata[n].States[0].State === "Haryana") {
-                console.log('Haryana agya');
-            }
-            // eachLocation = {country: jsondata[n].Country, state:jsondata[n].Country  }
-            //console.log('india agya');
+const locationMap = getDataFromLocation();
+let selectedCountry;
+//This method is used fetching the data for dropdown of country, city state.
+function getdropdownDataForLocation(catagory, country, state) {
+    //return locationMap.get('INDIA');
+    switch (catagory) {
+        case 'country':
+            return locationMap.keys();
+            break;
+        case 'state':
+            selectedCountry = country;
+            return getState(country);
+            break;
+        case 'Cities':
+            return getCities(selectedCountry, state);
+            break;
+    }
+}
+//code for fetching states
+function getState(country) {
+    let states = [];
+    for (let i = 0; i < locationMap.get(country).length; i++) {
+        states.push(locationMap.get(country)[i].State);
+    }
+    return states;
+}
+//code for fetching cities
+function getCities(contryval, val) {
+    let cities = [];
+    for (let i = 0; i < locationMap.get(contryval).length; i++) {
+        if ((locationMap.get(contryval)[i].State) === val) {
+            cities = locationMap.get(contryval)[i].city;
         }
     }
-    console.log(jsondata[0].States[1].State);
+    return cities;
 }
-//firstapproach();
-fifthApproach();
+//this method will run after the loading of DOM
+window.addEventListener('DOMContentLoaded', (event) => {
+    let selectCountryEle = document.querySelector('.country');
+    let selectStateEle = document.querySelector('.state');
+    const loadCountry = getdropdownDataForLocation('country');
+    for (let val of loadCountry) {
+        selectCountryEle.add(new Option(val, val));
+    }
+    selectCountryEle.addEventListener('change', function (evt) {
+        onChangeSelect(evt, 'state'); //load data for state on onChange of country
+    });
+    selectStateEle.addEventListener('change', function (evt) {
+        onChangeSelect(evt, 'Cities'); //load data for state on onChange of country
+    });
+});
+//@param evt contains the event that clicked ei: select box
+//@param ID: contains the  value of name/class of select box
+// This method is used to proceed with on change method. 
+function onChangeSelect(evt, ID) {
+    let ele = evt.currentTarget;
+    let selectedValOfTarget = ele.value;
+    let loadState;
+    if (ID === 'Cities') {
+        loadState = getdropdownDataForLocation(ID, selectedCountry, selectedValOfTarget);
+    }
+    else {
+        loadState = getdropdownDataForLocation(ID, selectedValOfTarget);
+        let selectCityEle = document.querySelector('.Cities');
+        selectCityEle.options.length = 0;
+    }
+    let selectStateEle = document.querySelector('.' + ID);
+    selectStateEle.options.length = 0;
+    for (let val of loadState) {
+        selectStateEle.add(new Option(val, val));
+    }
+}
 //# sourceMappingURL=CommonUtils.js.map

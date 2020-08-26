@@ -16,7 +16,7 @@ export interface location{
         State: string;
         city: string[];
     }[];
-    getcities: ()=> string[]
+  //  getcities: ()=> string[]
     
 }
 
