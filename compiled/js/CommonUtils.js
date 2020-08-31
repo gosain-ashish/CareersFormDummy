@@ -73,7 +73,6 @@ function getdropdownDataForLocation(catagory, country, state) {
  * @param country string: value of country selected.
  */
 function getState(country) {
-    debugger;
     let selectStateEle = document.querySelector('.state');
     let stateVale = '';
     for (let i = 0; i < locationMap.get(country).length; i++) {
@@ -106,14 +105,10 @@ function getCities(contryval, val) {
 function onChangeSelect(evt, elementClass) {
     let ele = evt.currentTarget;
     let selectedValOfTarget = ele.value;
-    let selectStateEle = document.querySelector('.' + elementClass);
-    selectStateEle.options.length = 0;
     if (elementClass === 'Cities') {
         getdropdownDataForLocation(elementClass, selectedCountry, selectedValOfTarget);
     }
     else {
-        let selectCityEle = document.querySelector('.Cities');
-        selectCityEle.options.length = 0;
         getdropdownDataForLocation(elementClass, selectedValOfTarget);
     }
 }

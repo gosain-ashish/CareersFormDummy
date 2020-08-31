@@ -41,6 +41,14 @@ export default
           "Troy",
           "Utica"
         ]
+      },
+      {
+        "State": "California",
+        "Cities": [
+          "Denbary",
+          "San Diego",
+          "Los Angeles"
+        ]
       }
     ]
   },

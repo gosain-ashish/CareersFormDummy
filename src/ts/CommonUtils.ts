@@ -113,7 +113,6 @@ function getdropdownDataForLocation(catagory: string, country?: string , state?:
  * @param country string: value of country selected.
  */
 function getState(country: string) {   
-    debugger;
     let selectStateEle = document.querySelector('.state') as HTMLSelectElement;
     let stateVale ='';
     for(let i = 0; i < locationMap.get(country)!.length; i++ )
@@ -151,12 +150,8 @@ function getCities(contryval: string, val: string){
 *This method is used to proceed with on change method. 
 */
 function onChangeSelect(evt: Event, elementClass: string){
-    
     let ele = evt.currentTarget as HTMLSelectElement;
     let selectedValOfTarget = ele.value;
-
-    let selectStateEle = document.querySelector('.'+elementClass) as HTMLSelectElement;
-    selectStateEle.options.length=0;
 
     if(elementClass === 'Cities')
     {
@@ -164,8 +159,6 @@ function onChangeSelect(evt: Event, elementClass: string){
     }
     else
     {
-        let selectCityEle = document.querySelector('.Cities') as HTMLSelectElement;
-        selectCityEle.options.length = 0;
         getdropdownDataForLocation(elementClass,  selectedValOfTarget)!;
     }
 }

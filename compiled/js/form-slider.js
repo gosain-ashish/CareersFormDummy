@@ -2,9 +2,14 @@
  * Typescript file containing all form slider functions.
  */
 import saveData from './CommonUtils.js';
-const SHIFT_PREV = 0;
-const SHIFT_NEXT = 1;
-const SHIFT_SUBMIT = 2;
+import { Transition_Sequence, Shift_Towards } from './transition-enum.js';
+const shiftMap = new Map()
+    .set(Transition_Sequence.PREV_SEQ_1, "0%")
+    .set(Transition_Sequence.PREV_SEQ_2, "-25%")
+    .set(Transition_Sequence.PREV_SEQ_3, "-50%")
+    .set(Transition_Sequence.NEXT_SEQ_2, "-25%")
+    .set(Transition_Sequence.NEXT_SEQ_3, "-50%")
+    .set(Transition_Sequence.NEXT_SEQ_4, "-75%");
 const sliderPage = document.querySelector('.sliderpage');
 const firstNextButton = document.querySelector('.next-1');
 const secondNextButton = document.querySelector('.next-2');
@@ -69,80 +74,58 @@ function navigate(currentWindow) {
     let currentActiveCheckWindow = getCurrentActiveCheckWindow();
     //This if is for move in previous direction
     if (isCheckWindowActive(currentWindow) && currentWindow <= currentActiveCheckWindow) {
-        currentActiveCheckWindow = currentActiveCheckWindow + 1;
+        currentActiveCheckWindow = currentActiveCheckWindow !== 4
+            ? currentActiveCheckWindow + 1 : currentActiveCheckWindow;
         switch (currentActiveCheckWindow) {
             case 4:
-                switch (currentWindow) {
-                    case 3:
-                        makeTransition("-50%", SHIFT_PREV);
-                        break;
-                    case 2:
-                        makeTransition("-25%", SHIFT_PREV);
-                        break;
-                    case 1:
-                        makeTransition("0%", SHIFT_PREV);
-                        break;
-                    default:
-                        break;
-                }
+                prepareTransition(currentWindow, Transition_Sequence.PREV_SEQ_3, [3, 2, 1], Shift_Towards.SHIFT_PREV);
             case 3:
-                switch (currentWindow) {
-                    case 2:
-                        makeTransition("-25%", SHIFT_PREV);
-                        break;
-                    case 1:
-                        makeTransition("0%", SHIFT_PREV);
-                        break;
-                    default:
-                        break;
-                }
+                prepareTransition(currentWindow, Transition_Sequence.PREV_SEQ_2, [2, 1], Shift_Towards.SHIFT_PREV);
             case 2:
-                switch (currentWindow) {
-                    case 1:
-                        makeTransition("0%", SHIFT_PREV);
-                        break;
-                    default:
-                        break;
-                }
+                prepareTransition(currentWindow, Transition_Sequence.PREV_SEQ_1, [1], Shift_Towards.SHIFT_PREV);
         }
     } //Below else is responsible to move in next direction 
     else if (currentWindow !== 1 && currentWindow !== currentActiveCheckWindow + 1) {
         currentActiveCheckWindow = currentActiveCheckWindow + 1;
         switch (currentActiveCheckWindow) {
             case 1:
-                switch (currentWindow) {
-                    case 2:
-                        makeTransition("-25%", SHIFT_NEXT);
-                        break;
-                    case 3:
-                        makeTransition("-50%", SHIFT_NEXT);
-                        break;
-                    case 4:
-                        makeTransition("-75%", SHIFT_NEXT);
-                        break;
-                    default:
-                        break;
-                }
+                prepareTransition(currentWindow, Transition_Sequence.NEXT_SEQ_2, [2, 3, 4], Shift_Towards.SHIFT_NEXT);
             case 2:
-                switch (currentWindow) {
-                    case 3:
-                        makeTransition("-50%", SHIFT_NEXT);
-                        break;
-                    case 4:
-                        makeTransition("-75%", SHIFT_NEXT);
-                        break;
-                    default:
-                        break;
-                }
+                prepareTransition(currentWindow, Transition_Sequence.NEXT_SEQ_3, [3, 4], Shift_Towards.SHIFT_NEXT);
             case 3:
-                switch (currentWindow) {
-                    case 4:
-                        makeTransition("-75%", SHIFT_NEXT);
-                        break;
-                    default:
-                        break;
-                }
+                prepareTransition(currentWindow, Transition_Sequence.NEXT_SEQ_4, [4], Shift_Towards.SHIFT_NEXT);
         }
+    }
+}
+/**
+ * Below function is responsible to calculate the margin and next or previous step from user. Before
+ * doing actual transition this method will prepare all pre-requisites
+ *
+ * @param currentWindow number: This is the chosen window by user where user wants to move
+ * @param shiftSequence string: This is the sequence of move to find margin from map
+ * @param possibleMove number[]: These are the possible moves one case can have
+ * @param shiftTowards number: This is to measure is user going next or previous
+ */
+function prepareTransition(currentWindow, shiftSequence, possibleMove, shiftTowards) {
+    switch (currentWindow) {
+        case 4:
+            if (possibleMove.indexOf(4) > -1)
+                makeTransition(shiftMap.get(shiftSequence), shiftTowards);
+            break;
+        case 3:
+            if (possibleMove.indexOf(3) > -1)
+                makeTransition(shiftMap.get(shiftSequence), shiftTowards);
+            break;
+        case 2:
+            if (possibleMove.indexOf(2) > -1)
+                makeTransition(shiftMap.get(shiftSequence), shiftTowards);
+            break;
+        case 1:
+            if (possibleMove.indexOf(1) > -1)
+                makeTransition(shiftMap.get(shiftSequence), shiftTowards);
+            break;
+        default:
+            break;
     }
 }
 /**
@@ -179,14 +162,14 @@ let resetMarginIntValue = true;
 allNextButtons.forEach(function (value) {
     marginIntValue += 25;
     marginValue = `-${marginIntValue}%`;
-    addCustomEventListeners(value, marginValue, SHIFT_NEXT);
+    addCustomEventListeners(value, marginValue, Shift_Towards.SHIFT_NEXT);
 });
 //Adding event listener to all previous buttons with specified margin
 allPrevButtons.forEach(function (value) {
     if (resetMarginIntValue)
         marginIntValue = 0; //reset value of margin before further proceeding
     marginValue = `-${marginIntValue}%`;
-    addCustomEventListeners(value, marginValue, SHIFT_PREV);
+    addCustomEventListeners(value, marginValue, Shift_Towards.SHIFT_PREV);
     marginIntValue += 25;
     resetMarginIntValue = false;
 });
@@ -204,7 +187,7 @@ function addCustomEventListeners(element, marginValue, shift) {
     }
     else if (element.innerHTML === "Submit") {
         element.addEventListener("click", function () {
-            makeTransition("", SHIFT_SUBMIT);
+            makeTransition("", Shift_Towards.SHIFT_SUBMIT);
             let form = document.getElementById('initial-form');
             //Save the data after clicking on submit.
             saveData(form);
@@ -220,30 +203,39 @@ function addCustomEventListeners(element, marginValue, shift) {
 function makeTransition(marginValue, shiftTowards) {
     if (marginValue !== "")
         sliderPage.style.marginLeft = marginValue;
-    if (shiftTowards === SHIFT_NEXT) {
+    if (shiftTowards === Shift_Towards.SHIFT_NEXT) {
         bullet[current - 1].classList.add("active");
         progressCheck[current - 1].classList.add("active");
         current += 1;
     }
-    else if (shiftTowards === SHIFT_PREV) {
+    else if (shiftTowards === Shift_Towards.SHIFT_PREV) {
         bullet[current - 2].classList.remove("active");
         progressCheck[current - 2].classList.remove("active");
         current -= 1;
     }
-    else if (shiftTowards === SHIFT_SUBMIT && current <= bullet.length) {
+    else if (shiftTowards === Shift_Towards.SHIFT_SUBMIT && current <= bullet.length) {
         bullet[current - 1].classList.add("active");
         progressCheck[current - 1].classList.add("active");
         current += 1;
         let form = document.getElementById("initial-form");
-        // document.getElementById("afterSubmit")!.style.display = "block";
+        document.getElementById("initial-form").style.display = "none";
+        document.getElementById("afterSubmit").style.display = "block";
         setTimeout(function () {
             form.reset();
+            //Changing position of form after reset
+            navigate(1);
+            //Recursive call in order to remove all bullet & check active classes
+            makeTransition("", Shift_Towards.SHIFT_PREV);
+            document.getElementById("initial-form").style.display = "flex";
+            document.getElementById("afterSubmit").style.display = "none";
             //resetting the values after form submission
             let selectCityEle = document.querySelector('.Cities');
             selectCityEle.options.length = 0;
-            let selectStateEle = document.querySelector('.Cities');
+            selectCityEle.add(new Option("Select", ""));
+            let selectStateEle = document.querySelector('.state');
             selectStateEle.options.length = 0;
-        }, 500);
+            selectStateEle.add(new Option("Select", ""));
+        }, 5000);
     }
 }
 //# sourceMappingURL=form-slider.js.map
