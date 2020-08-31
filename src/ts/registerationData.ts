@@ -4,92 +4,57 @@ import registerationDataInterface from './registrationDataInterface.js'
 type custType =  String| File;
 
 export default class registerationData implements registerationDataInterface{
-    firstName: custType;
+    private _firstName: custType;
    
-    lastName: custType;
+    _lastName: custType;
    
-    email: custType;
+    _email: custType;
    
-    phone: custType | number;
+    _phone: custType | number;
     
-    DOB: custType;
+    _DOB: custType;
    
-    gender: custType;
+    _gender: custType;
    
-    country: custType;
+    _country: custType;
 
-    constructor(fname: custType , lName: custType, mail: custType, phone: custType | number, dateofBirth: custType, gender: custType, country: custType){
-        this.firstName = fname;
-        this.lastName = lName;
-        this.email = mail;
-        this.phone = phone;
-        this.DOB = dateofBirth;
-        this.gender = gender;
-        this.country = country;
+    constructor(firstName: custType , lName: custType, mail: custType, phone: custType | number, dateofBirth: custType, gender: custType, country: custType){
+        this._firstName = firstName;
+        this._lastName = lName;
+        this._email = mail;
+        this._phone = phone;
+        this._DOB = dateofBirth;
+        this._gender = gender;
+        this._country = country;
+    }
+  
+    public get firstName(): custType {
+        return this._firstName;
     }
 
+    public get lastName(): custType {
+        return this._lastName;
+    }
+
+    public get gender(): custType {
+        return this._gender;
+    }
     
-    public getfirstName(): custType {
-        return this.firstName;
+    public get DOB(): custType {
+        return this._DOB;
     }
-    public setfirstName(value: custType) {
-        this.firstName = value;
+    
+    public get phone(): custType |number {
+        return this._phone;
     }
-
-
-    public getlastName(): custType {
-        return this.lastName;
+    
+    public get email(): custType {
+        return this._email;
     }
-    public setlastName(value: custType) {
-        this.lastName = value;
+    
+    public get country(): custType {
+        return this._country;
     }
-
-    public getgender(): custType {
-        return this.gender;
-    }
-    public setgender(value: custType) {
-        this.gender = value;
-    }
-
-    public getDOB(): custType {
-        return this.DOB;
-    }
-    public setDOB(value: custType) {
-        this.DOB = value;
-    }
-
-    public getphone(): custType |number {
-        return this.phone;
-    }
-    public setphone(value: custType | number) {
-        this.phone = value;
-    }
-
-    public getemail(): custType {
-        return this.email;
-    }
-    public setemail(value: custType) {
-        this.email = value;
-    }
-
-    public getcountry(): custType {
-        return this.country;
-    }
-    public setcountry(value: custType) {
-        this.country = value;
-    }
+    
 }
 
-
-
-//console.log(Data.Country);
-
-/* function getCountry() {
-    let location: Map<custType, Map<custType, custType[]>>;
-    let states: Map<custType, custType[]>;
-
-    // let country: custType = Data.
-
-    let country = new Map<custType, custType>()
-
-} */

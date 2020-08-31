@@ -1,5 +1,7 @@
 import registerationData from "./registerationData.js";
 import data from './Data.js';
+const locationMap = getDataFromLocation();
+let selectedCountry;
 let datalist = [];
 export default function saveData(form) {
     const formData = new FormData(form);
@@ -27,76 +29,92 @@ function getDataFromLocation() {
     }
     return locationMap;
 }
-const locationMap = getDataFromLocation();
-let selectedCountry;
-//This method is used fetching the data for dropdown of country, city state.
+//this method will run after the loading of DOM
+window.addEventListener('DOMContentLoaded', (event) => {
+    let selectCountryEle = document.querySelector('.country');
+    let selectStateEle = document.querySelector('.state');
+    //Load data for countries
+    getdropdownDataForLocation('country');
+    //load data for state on onChange of country
+    selectCountryEle.addEventListener('change', function (evt) {
+        onChangeSelect(evt, 'state');
+    });
+    //load data for city on onChange of country  
+    selectStateEle.addEventListener('change', function (evt) {
+        onChangeSelect(evt, 'Cities');
+    });
+});
+/**
+ * This method is used fetching the data for dropdown of country, city state.
+ * @param catagory string : Element catagory to which we need to load the data for Ex: Country city and state
+ * @param country string: value of country selected
+ * @param State string: value of state selected by the dropdown
+ */
 function getdropdownDataForLocation(catagory, country, state) {
+    let selectCountryEle = document.querySelector('.country');
     //return locationMap.get('INDIA');
     switch (catagory) {
         case 'country':
-            return locationMap.keys();
+            for (let val of locationMap.keys()) {
+                selectCountryEle.add(new Option(val, val));
+            }
             break;
         case 'state':
             selectedCountry = country;
-            return getState(country);
+            getState(country);
             break;
         case 'Cities':
-            return getCities(selectedCountry, state);
+            getCities(selectedCountry, state);
             break;
     }
 }
-//code for fetching states
+/**
+ * This method is used fetching/loading the data for dropdown state.
+ * @param country string: value of country selected.
+ */
 function getState(country) {
-    let states = [];
+    debugger;
+    let selectStateEle = document.querySelector('.state');
+    let stateVale = '';
     for (let i = 0; i < locationMap.get(country).length; i++) {
-        states.push(locationMap.get(country)[i].State);
+        stateVale = locationMap.get(country)[i].State;
+        selectStateEle.add(new Option(stateVale, stateVale));
     }
-    return states;
 }
-//code for fetching cities
+/**
+ * This method is used fetching/loading the data for dropdown Cities.
+ * @param contryval string: value of country selected
+ * @param val string: value of state selected by the dropdown
+ */
 function getCities(contryval, val) {
     let cities = [];
+    let selectCityEle = document.querySelector('.Cities');
     for (let i = 0; i < locationMap.get(contryval).length; i++) {
         if ((locationMap.get(contryval)[i].State) === val) {
             cities = locationMap.get(contryval)[i].city;
         }
     }
-    return cities;
-}
-//this method will run after the loading of DOM
-window.addEventListener('DOMContentLoaded', (event) => {
-    let selectCountryEle = document.querySelector('.country');
-    let selectStateEle = document.querySelector('.state');
-    const loadCountry = getdropdownDataForLocation('country');
-    for (let val of loadCountry) {
-        selectCountryEle.add(new Option(val, val));
+    for (let val of cities) {
+        selectCityEle.add(new Option(val, val));
     }
-    selectCountryEle.addEventListener('change', function (evt) {
-        onChangeSelect(evt, 'state'); //load data for state on onChange of country
-    });
-    selectStateEle.addEventListener('change', function (evt) {
-        onChangeSelect(evt, 'Cities'); //load data for state on onChange of country
-    });
-});
-//@param evt contains the event that clicked ei: select box
-//@param ID: contains the  value of name/class of select box
-// This method is used to proceed with on change method. 
-function onChangeSelect(evt, ID) {
+}
+/**
+*@param evt contains the event that clicked ei: select box
+*@param elementClass: contains the  value of name/class of select box
+*This method is used to proceed with on change method.
+*/
+function onChangeSelect(evt, elementClass) {
     let ele = evt.currentTarget;
     let selectedValOfTarget = ele.value;
-    let loadState;
-    if (ID === 'Cities') {
-        loadState = getdropdownDataForLocation(ID, selectedCountry, selectedValOfTarget);
+    let selectStateEle = document.querySelector('.' + elementClass);
+    selectStateEle.options.length = 0;
+    if (elementClass === 'Cities') {
+        getdropdownDataForLocation(elementClass, selectedCountry, selectedValOfTarget);
     }
     else {
-        loadState = getdropdownDataForLocation(ID, selectedValOfTarget);
         let selectCityEle = document.querySelector('.Cities');
         selectCityEle.options.length = 0;
-    }
-    let selectStateEle = document.querySelector('.' + ID);
-    selectStateEle.options.length = 0;
-    for (let val of loadState) {
-        selectStateEle.add(new Option(val, val));
+        getdropdownDataForLocation(elementClass, selectedValOfTarget);
     }
 }
 //# sourceMappingURL=CommonUtils.js.map

@@ -1,64 +1,33 @@
 export default class registerationData {
-    constructor(fname, lName, mail, phone, dateofBirth, gender, country) {
-        this.firstName = fname;
-        this.lastName = lName;
-        this.email = mail;
-        this.phone = phone;
-        this.DOB = dateofBirth;
-        this.gender = gender;
-        this.country = country;
+    constructor(firstName, lName, mail, phone, dateofBirth, gender, country) {
+        this._firstName = firstName;
+        this._lastName = lName;
+        this._email = mail;
+        this._phone = phone;
+        this._DOB = dateofBirth;
+        this._gender = gender;
+        this._country = country;
     }
-    getfirstName() {
-        return this.firstName;
+    get firstName() {
+        return this._firstName;
     }
-    setfirstName(value) {
-        this.firstName = value;
+    get lastName() {
+        return this._lastName;
     }
-    getlastName() {
-        return this.lastName;
+    get gender() {
+        return this._gender;
     }
-    setlastName(value) {
-        this.lastName = value;
+    get DOB() {
+        return this._DOB;
     }
-    getgender() {
-        return this.gender;
+    get phone() {
+        return this._phone;
     }
-    setgender(value) {
-        this.gender = value;
+    get email() {
+        return this._email;
     }
-    getDOB() {
-        return this.DOB;
-    }
-    setDOB(value) {
-        this.DOB = value;
-    }
-    getphone() {
-        return this.phone;
-    }
-    setphone(value) {
-        this.phone = value;
-    }
-    getemail() {
-        return this.email;
-    }
-    setemail(value) {
-        this.email = value;
-    }
-    getcountry() {
-        return this.country;
-    }
-    setcountry(value) {
-        this.country = value;
+    get country() {
+        return this._country;
     }
 }
-//console.log(Data.Country);
-/* function getCountry() {
-    let location: Map<custType, Map<custType, custType[]>>;
-    let states: Map<custType, custType[]>;
-
-    // let country: custType = Data.
-
-    let country = new Map<custType, custType>()
-
-} */ 
 //# sourceMappingURL=registerationData.js.map

@@ -261,6 +261,13 @@ function makeTransition(marginValue:string, shiftTowards:number) {
        // document.getElementById("afterSubmit")!.style.display = "block";
         setTimeout(function(){
             form.reset();
+            
+            //resetting the values after form submission
+            let selectCityEle = document.querySelector('.Cities') as HTMLSelectElement;
+            selectCityEle.options.length = 0;
+            let selectStateEle = document.querySelector('.Cities') as HTMLSelectElement;
+            selectStateEle.options.length = 0;
+
         }, 500);
     }
 }
