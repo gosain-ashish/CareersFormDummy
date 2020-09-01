@@ -7,7 +7,7 @@ const locationMap  =  getDataFromLocation();
 let selectedCountry: string;
 let datalist : registrationDataInterface[] = [];
 
-export default function saveData(form: HTMLFormElement){
+export function saveData(form: HTMLFormElement){
 
     const formData = new FormData(form);
 
@@ -173,7 +173,7 @@ function onChangeSelect(evt: Event, elementClass: string){
  * 
  * @param selectElement HTMLSelectElement: Rest parameters of SelectElement type to add options
  */
-function resetOptions(...selectElement: HTMLSelectElement[]) {
+export function resetOptions(...selectElement: HTMLSelectElement[]) {
     selectElement.forEach((value) => {
         value.length = 0;
         value.add(new Option("Select","",true,true));

@@ -1,3 +1,4 @@
+//interface is for To Do purpose.  And this whole class is for practice only. Please ignore this class for the time being. :p 
 export default class registerationData {
     constructor(firstName, lName, mail, phone, dateofBirth, gender, country) {
         this._firstName = firstName;

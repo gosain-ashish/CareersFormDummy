@@ -3,7 +3,7 @@ import data from './Data.js';
 const locationMap = getDataFromLocation();
 let selectedCountry;
 let datalist = [];
-export default function saveData(form) {
+export function saveData(form) {
     const formData = new FormData(form);
     let Fname = formData.get("firstName");
     let Lname = formData.get("lastName");
@@ -121,7 +121,7 @@ function onChangeSelect(evt, elementClass) {
  *
  * @param selectElement HTMLSelectElement: Rest parameters of SelectElement type to add options
  */
-function resetOptions(...selectElement) {
+export function resetOptions(...selectElement) {
     selectElement.forEach((value) => {
         value.length = 0;
         value.add(new Option("Select", "", true, true));

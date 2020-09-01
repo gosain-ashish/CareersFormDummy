@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+    <link rel="stylesheet" href="./src/css/style.css">
+    <title>Career Form</title>
+</head>
+<body>
+    <div class="career-header">
+        <div class="header-left">
+            <div class="header-left-content">
+                <h1>Career Form</h1>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="header-right-content">
+                <h2>we help you build your career !</h2>
+            </div>
+        </div>
+    </div>
+    <hr class="hr-line" />
+    <div class="form-outer-container">
+        <div class="form-inner-container">
+            <header>Career Form</header>
+            <hr class="hr-line" />
+            <div class="progress-bar" id="progress-bar">
+                <div class="step">
+                    <div class="navigate">
+                        <p>Name</p>
+                        <div class="bullet">
+                            <span>1</span>
+                            <i class="check fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="navigate">
+                        <p>Contact</p>
+                        <div class="bullet">
+                            <span>2</span>
+                            <i class="check fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="navigate">
+                        <p>Birth</p>
+                        <div class="bullet">
+                            <span>3</span>
+                            <i class="check fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="navigate">  
+                        <p>Submit</p>   
+                        <div class="bullet">    
+                            <span>4</span>  
+                            <i class="check fas fa-check"></i>
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="form-outer">
+                <form action="javascript:void(0)" id="initial-form">
+                    <div class="page sliderpage">
+                        <div class="title">Basic Info:</div>
+                        <div class="field">
+                            <div class="label">First Name</div>
+                            <input type="text" name="firstName" placeholder="Enter first name..">
+                        </div>
+                        <div class="field">
+                            <div class="label">Last Name</div>
+                            <input type="text" name="lastName" placeholder="Enter last name..">
+                        </div>
+                        <div class="field next-1">
+                            <button>Next</button>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Contact Info:</div>
+                        <div class="field">
+                            <div class="label">Email Address</div>
+                            <input type="text" name="emailAddress" placeholder="Enter email address..">
+                        </div>
+                        <div class="field">
+                            <div class="label">Phone</div>
+                            <input type="number" name="phone" placeholder="Enter phone number..">
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-1 prev">Previous</button>
+                            <button class="next-2 next">Next</button>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Personal Info:</div>
+                        <div class="field">
+                            <div class="label">Birth Date</div>
+                            <input type="text" name="birthDate" placeholder="dd-mm-yyyy">
+                        </div>
+                        <div class="field">
+                            <div class="label">Gender</div>
+                            <select name="gender">
+                                <option selected>Male</option>
+                                <option>Female</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-2 prev">Previous</button>
+                            <button class="next-3 next">Next</button>
+                        </div>
+                    </div>
+                    <div class="page">
+                        <div class="title">Residence:</div>
+                        <div class="field">
+                            <div class="label">Country</div>
+                            <select class='country' name="country">
+                                <option value="" selected disabled hidden>Select</option>
+                            </select>
+                        </div>
+                        <div class="field">
+                            <div class="label">State</div>
+                            <select class='state' name="state"> 
+                                <option value="">Select</option> 
+                            </select>
+                        </div>
+                        <div class="field">
+                            <div class="label">city</div>
+                            <select class='Cities' name="Cities"> 
+                                <option value="">Select</option> 
+                            </select>
+                        </div>
+                        <div class="field btns">
+                            <button class="prev-3 prev">Previous</button>
+                            <button class="submit next">Submit</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="info" id="afterSubmit">
+                    <p>Your career form is submitted successfully, You'll be redirected automatically.</p>
+                    <i class="fas fa-check"></i>
+                    <p>We'll contact you if your profile is suitable to any opening, <b>Good Luck !</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./compiled/js/form-slider.js" type="module">
+    </script>
+</body>
+</html>

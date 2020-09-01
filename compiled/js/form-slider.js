@@ -1,7 +1,7 @@
 /**
  * Typescript file containing all form slider functions.
  */
-import saveData from './CommonUtils.js';
+import * as CommonUtils from './CommonUtils.js';
 import { Transition_Sequence, Shift_Towards } from './transition-enum.js';
 const shiftMap = new Map()
     .set(Transition_Sequence.PREV_SEQ_1, "0%")
@@ -177,7 +177,7 @@ function addCustomEventListeners(element, marginValue, shift) {
             makeTransition("", Shift_Towards.SHIFT_SUBMIT);
             let form = document.getElementById('initial-form');
             //Save the data after clicking on submit.
-            saveData(form);
+            CommonUtils.saveData(form);
         });
     }
 }
@@ -221,11 +221,8 @@ function makeTransition(marginValue, shiftTowards) {
             document.getElementById("afterSubmit").style.display = "none";
             //resetting the values after form submission
             let selectCityEle = document.querySelector('.Cities');
-            selectCityEle.options.length = 0;
-            selectCityEle.add(new Option("Select", ""));
             let selectStateEle = document.querySelector('.state');
-            selectStateEle.options.length = 0;
-            selectStateEle.add(new Option("Select", ""));
+            CommonUtils.resetOptions(selectCityEle, selectStateEle);
             //Enabling click events again, After reset
             bullet.forEach(function (value) {
                 value.classList.remove("disable-click");
