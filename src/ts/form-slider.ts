@@ -28,7 +28,7 @@ const thirdPrevButton = document.querySelector('.prev-3');
 const allPrevButtons = [firstPrevButton, secondPrevButton, thirdPrevButton];
 
 const progressText = document.querySelectorAll('.step p');
-const progressCheck = document.querySelectorAll('.step .check');
+const progressCheck = document.querySelectorAll('.bullet .check');
 const bullet = document.querySelectorAll('.step .bullet');
 const navigation = document.querySelectorAll('.navigate');
 
@@ -41,7 +41,7 @@ let marginIntValue = 0;
 /**
  * Adding navigation to each navigation div either it is bullet, check or span
  */
-navigation.forEach(function(value) {
+bullet.forEach(function(value) {
     value.addEventListener("click", function(evt) {
         findElement(evt);
     })
@@ -54,25 +54,8 @@ navigation.forEach(function(value) {
  * @param evt Event: This is the clicked event to get user input
  */
 function findElement(evt: Event) {
-    let ele = <HTMLElement>evt.target;
-    let nameOfNode = ele.nodeName;
-
-    switch(nameOfNode) {
-        case "DIV":
-            navigate(+ele.firstElementChild?.innerHTML!);
-            break;
-        
-        case "SPAN":
-            navigate(+ele.innerHTML);
-            break;
-
-        case "I":
-            navigate(+ele.previousElementSibling?.firstElementChild?.innerHTML!);
-            break;
-
-        default:
-            break;
-    }
+    let ele_1 = <HTMLElement>evt.currentTarget;
+    navigate(+ele_1.firstElementChild?.innerHTML!);
 }
 
 /**
@@ -178,7 +161,7 @@ function getCurrentActiveCheckWindow(): number {
  */
 function isCheckWindowActive(currentWindow: number): boolean {
     for(let check of progressCheck) {
-        if(+check.previousElementSibling?.firstElementChild?.innerHTML! === currentWindow)
+        if(+check.previousElementSibling?.innerHTML! === currentWindow)
             return check.classList.contains("active");
     }
     return false;
@@ -249,6 +232,11 @@ function makeTransition(marginValue:string, shiftTowards:number) {
         bullet[current - 1].classList.add("active");
         progressCheck[current - 1].classList.add("active");
         current += 1;
+
+        //Disabling click event on navigation after submit, To prevent any bug
+        bullet.forEach(function(value) {
+            value.classList.add("disable-click");
+        })
         
         let form = document.getElementById("initial-form") as HTMLFormElement;
         document.getElementById("initial-form")!.style.display = "none";
@@ -271,6 +259,11 @@ function makeTransition(marginValue:string, shiftTowards:number) {
             let selectStateEle = document.querySelector('.state') as HTMLSelectElement;
             selectStateEle.options.length = 0;
             selectStateEle.add(new Option("Select", ""));
+
+            //Enabling click events again, After reset
+            bullet.forEach(function(value) {
+                value.classList.remove("disable-click");
+            })
         }, 5000);
     }
 }

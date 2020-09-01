@@ -1,10 +1,9 @@
-import Data from  './Data.js';
-import registerationDataInterface from './registrationDataInterface.js'
+import registerationDataInterface from './registrationDataInterface.js';
 
-type custType =  String| File;
+type custType =  String | File;
 
 export default class registerationData implements registerationDataInterface{
-    private _firstName: custType;
+    _firstName: custType;
    
     _lastName: custType;
    

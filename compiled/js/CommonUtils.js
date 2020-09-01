@@ -74,7 +74,9 @@ function getdropdownDataForLocation(catagory, country, state) {
  */
 function getState(country) {
     let selectStateEle = document.querySelector('.state');
+    let selectCityEle = document.querySelector('.Cities');
     let stateVale = '';
+    resetOptions(selectStateEle, selectCityEle);
     for (let i = 0; i < locationMap.get(country).length; i++) {
         stateVale = locationMap.get(country)[i].State;
         selectStateEle.add(new Option(stateVale, stateVale));
@@ -88,6 +90,7 @@ function getState(country) {
 function getCities(contryval, val) {
     let cities = [];
     let selectCityEle = document.querySelector('.Cities');
+    resetOptions(selectCityEle);
     for (let i = 0; i < locationMap.get(contryval).length; i++) {
         if ((locationMap.get(contryval)[i].State) === val) {
             cities = locationMap.get(contryval)[i].city;
@@ -111,5 +114,17 @@ function onChangeSelect(evt, elementClass) {
     else {
         getdropdownDataForLocation(elementClass, selectedValOfTarget);
     }
+}
+/**
+ * This below function is used to reset options in a select element, While selecting a new option it will
+ * empty current options first.
+ *
+ * @param selectElement HTMLSelectElement: Rest parameters of SelectElement type to add options
+ */
+function resetOptions(...selectElement) {
+    selectElement.forEach((value) => {
+        value.length = 0;
+        value.add(new Option("Select", "", true, true));
+    });
 }
 //# sourceMappingURL=CommonUtils.js.map

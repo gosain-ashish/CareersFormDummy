@@ -21,7 +21,7 @@ const secondPrevButton = document.querySelector('.prev-2');
 const thirdPrevButton = document.querySelector('.prev-3');
 const allPrevButtons = [firstPrevButton, secondPrevButton, thirdPrevButton];
 const progressText = document.querySelectorAll('.step p');
-const progressCheck = document.querySelectorAll('.step .check');
+const progressCheck = document.querySelectorAll('.bullet .check');
 const bullet = document.querySelectorAll('.step .bullet');
 const navigation = document.querySelectorAll('.navigate');
 let max = 4;
@@ -31,7 +31,7 @@ let marginIntValue = 0;
 /**
  * Adding navigation to each navigation div either it is bullet, check or span
  */
-navigation.forEach(function (value) {
+bullet.forEach(function (value) {
     value.addEventListener("click", function (evt) {
         findElement(evt);
     });
@@ -43,22 +43,9 @@ navigation.forEach(function (value) {
  * @param evt Event: This is the clicked event to get user input
  */
 function findElement(evt) {
-    var _a, _b, _c;
-    let ele = evt.target;
-    let nameOfNode = ele.nodeName;
-    switch (nameOfNode) {
-        case "DIV":
-            navigate(+((_a = ele.firstElementChild) === null || _a === void 0 ? void 0 : _a.innerHTML));
-            break;
-        case "SPAN":
-            navigate(+ele.innerHTML);
-            break;
-        case "I":
-            navigate(+((_c = (_b = ele.previousElementSibling) === null || _b === void 0 ? void 0 : _b.firstElementChild) === null || _c === void 0 ? void 0 : _c.innerHTML));
-            break;
-        default:
-            break;
-    }
+    var _a;
+    let ele_1 = evt.currentTarget;
+    navigate(+((_a = ele_1.firstElementChild) === null || _a === void 0 ? void 0 : _a.innerHTML));
 }
 /**
  * @summary This is most complex function and final function to move user next or previous from navigation
@@ -149,9 +136,9 @@ function getCurrentActiveCheckWindow() {
  * wants to move.
  */
 function isCheckWindowActive(currentWindow) {
-    var _a, _b;
+    var _a;
     for (let check of progressCheck) {
-        if (+((_b = (_a = check.previousElementSibling) === null || _a === void 0 ? void 0 : _a.firstElementChild) === null || _b === void 0 ? void 0 : _b.innerHTML) === currentWindow)
+        if (+((_a = check.previousElementSibling) === null || _a === void 0 ? void 0 : _a.innerHTML) === currentWindow)
             return check.classList.contains("active");
     }
     return false;
@@ -217,6 +204,10 @@ function makeTransition(marginValue, shiftTowards) {
         bullet[current - 1].classList.add("active");
         progressCheck[current - 1].classList.add("active");
         current += 1;
+        //Disabling click event on navigation after submit, To prevent any bug
+        bullet.forEach(function (value) {
+            value.classList.add("disable-click");
+        });
         let form = document.getElementById("initial-form");
         document.getElementById("initial-form").style.display = "none";
         document.getElementById("afterSubmit").style.display = "block";
@@ -235,6 +226,10 @@ function makeTransition(marginValue, shiftTowards) {
             let selectStateEle = document.querySelector('.state');
             selectStateEle.options.length = 0;
             selectStateEle.add(new Option("Select", ""));
+            //Enabling click events again, After reset
+            bullet.forEach(function (value) {
+                value.classList.remove("disable-click");
+            });
         }, 5000);
     }
 }
