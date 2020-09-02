@@ -1,6 +1,7 @@
 /**
  * Typescript file containing all form slider functions.
  */
+var _a;
 import * as CommonUtils from './CommonUtils.js';
 import { Transition_Sequence, Shift_Towards } from './transition-enum.js';
 const shiftMap = new Map()
@@ -28,6 +29,14 @@ let max = 4;
 let current = 1;
 let marginValue = "";
 let marginIntValue = 0;
+/**
+ * Prevent enter on form, To block navigation, Only buttons and navigation will work
+ */
+(_a = document.getElementById('initial-form')) === null || _a === void 0 ? void 0 : _a.addEventListener("keypress", (evt) => {
+    if (evt.keyCode === 13) {
+        evt.preventDefault();
+    }
+});
 /**
  * Adding navigation to each navigation div either it is bullet, check or span
  */

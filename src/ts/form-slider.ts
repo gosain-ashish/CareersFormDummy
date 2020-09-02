@@ -38,6 +38,15 @@ let marginValue = "";
 let marginIntValue = 0;
 
 /**
+ * Prevent enter on form, To block navigation, Only buttons and navigation will work
+ */
+document.getElementById('initial-form')?.addEventListener("keypress", (evt) => {
+    if(evt.keyCode === 13) {
+        evt.preventDefault();
+    }
+})
+
+/**
  * Adding navigation to each navigation div either it is bullet, check or span
  */
 bullet.forEach(function(value) {
