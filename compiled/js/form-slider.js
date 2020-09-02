@@ -34,6 +34,7 @@ let marginIntValue = 0;
  */
 (_a = document.getElementById('initial-form')) === null || _a === void 0 ? void 0 : _a.addEventListener("keypress", (evt) => {
     if (evt.keyCode === 13) {
+        console.log("Enter will not work, Sorry");
         evt.preventDefault();
     }
 });
